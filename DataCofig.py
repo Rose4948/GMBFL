@@ -14,6 +14,7 @@ from scipy import sparse
 import math
 import json
 
+#####摆烂的星期一
 
 dmap = {
 'Chart': {0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 7, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16,15: 17, 16: 18, 17: 19, 18: 20, 19: 21, 20: 22, 21: 24, 22: 25, 23: 26},
@@ -36,7 +37,7 @@ dmap = {
 class SumDataset1( data.Dataset ):
     def __init__(self, config, dataName="train", proj="Math",testlst=[],vallst=[]):
         self.train_path = proj + ".pkl"
-        self.val_path = "ndev.txt"  # "validD.txt"
+        self.val_path = "ndev.txt"
         self.test_path = "ntest.txt"
         self.proj = proj
         self.SentenceLen = config.SentenceLen
@@ -247,7 +248,7 @@ class SumDataset1( data.Dataset ):
                     ans.append( 1 )
         for x in ans:
             if x >= len( self.Nl_Voc ) + self.Code_Len:
-                # print(codetoken, nltoken)
+
                 exit( 0 )
         return ans
 
@@ -286,45 +287,38 @@ class SumDataset1( data.Dataset ):
                             error += 1
                         else:
                             correct += 1
-                        # assert error_trace in stack_info.keys()
-                    # error += 1
-                # else:
-                # correct += 1
-            nodes = []  # 根节点、测试节点的属性 method
-            types = []  # 根节点的文本相似性
-            res = []  # 对应的根节点是否是故障位置，1：是yes；0是No
-            nladrow = []  # = np.zeros([3200, 3200])
+
+            nodes = []
+            types = []
+            res = []
+            nladrow = []
             nladcol = []
             nladval = []
-            texta = []  # 用来和测试错误时显示的文本相对比，计算文本相似性
+            texta = []
             textb = []
-            linenodes = []  # 代码中非根节点的AST属性
+            linenodes = []
             linetypes = []
             line_S_M =[]
-            methodnum = len( x['methods'] )  # 根节点(方法)的数量
-            # print("k,methodnum", k, methodnum)
+            methodnum = len( x['methods'] )
+
             rrdict = {}
-            # print(x['methods'])
+
             for s in x['methods']:
                 rrdict[x['methods'][s]] = s[:]
-                # print(x['methods'][s],s[:])
+
             for i in range( methodnum ):
                 nodes.append( 'Method' )
-                # org / apache / commons / lang3 / StringUtils.java @ isBlank
-                # 'org.apache.commons.lang3.math.NumberUtils:createNumber(Ljava/lang/String;)Ljava/lang/Number;
-                # print(i,rrdict[i])
+
                 if len( rrdict[i].split("@") ) > 1:
                     tokens = ".".join( rrdict[i].split( "@" )[0].split( '/' )[-2:] + [rrdict[i].split( "@" )[1]] )
                 else:
                     tokens = ".".join( rrdict[i].split( "@" )[0].split( '/' )[-2:] )
-                # tmpids = self.Get_Em(self.splitCamel(tokens), self.Code_Voc)#tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tokens))#print(rrdict[i])
                 ans = self.splitCamel( tokens )
-                # print("methods-ans",ans)
-                texta.append( ans )  # (self.pad_seq(tmpids, 10))
-                if i not in x['correctnum']:  # ********************************
+                texta.append( ans )
+                if i not in x['correctnum']:
                     types.append( 1 )
                 else:
-                    types.append( x['correctnum'][i] + 1 )  # **************************
+                    types.append( x['correctnum'][i] + 1 )
                 if i in x['ans']:
                     res.append( 1 )
                 else:
@@ -335,7 +329,7 @@ class SumDataset1( data.Dataset ):
             for i in range( len( x['ftest'] ) ):
                 nodes.append( 'Test' )
                 types.append( 0 )
-                #"org.apache.commons.lang3.math.NumberUtilsTest#TestLang747"
+
                 if len( rrdic[i].split( "#" ) ) > 1:
                     tokens = ".".join( rrdic[i].split( "#" )[0].split( '.' )[-2:] + [rrdic[i].split( "#" )[1]] )
                 else:
@@ -357,14 +351,12 @@ class SumDataset1( data.Dataset ):
                     linetypes.append( x['lcorrectnum'][i] )
                 else:
                     linetypes.append( 1 )
-                # print("******************",x['lSBFL'][i],type(x['lSBFL'][i]),type(x['lSBFL'][i][0]))
                 line_S_M.append(x['lSBFL'][i])
-            # 变异算子添加到节点中去了
+
             for i in range( len( x['mutation'] ) ):
                 if i not in x['mtype']:
                     x['mtype'][i] = 'Empty'
                 if x['mtype'][i] not in self.Nl_Voc:
-                    # print('mtype', x['mtype'][i])
                     self.Nl_Voc[x['mtype'][i]] = len( self.Nl_Voc )
                 linenodes.append( x['mtype'][i] )
                 linetypes.append( 0 )
@@ -377,8 +369,8 @@ class SumDataset1( data.Dataset ):
             line2method = {}
             for e in x['edge2']:
                 line2method[e[1]] = e[0]
-                a = e[0]  # 方法编号
-                b = e[1] + self.Nl_Len  # len(x['ftest']) + methodnum
+                a = e[0]
+                b = e[1] + self.Nl_Len
                 if (a, b) not in ed:
                     ed[(a, b)] = 1
                 else:
@@ -416,7 +408,7 @@ class SumDataset1( data.Dataset ):
             for e in x['edge']:
                 if e[0] not in line2method:
                     error2 += 1
-                a = e[0] + self.Nl_Len  # + len(x['ftest']) + methodnum
+                a = e[0] + self.Nl_Len
                 b = e[1] + methodnum
                 if (a, b) not in ed:
                     ed[(a, b)] = 1
@@ -438,10 +430,7 @@ class SumDataset1( data.Dataset ):
                     error12 += 1
                 a = e[0] + self.Nl_Len + len( x['lines'] )
                 b = e[1] + self.Nl_Len
-#                if(a>1287):
-#                    print("edge12-a",e[0],self.Nl_Len ,len( x['lines'] ),len( x['methods']))
-#                if (b > 1287):
-#                    print("edge12-b", b,e[1])
+
                 if (a, b) not in ed:
                     ed[(a, b)] = 1
                     nladrow.append( a )
@@ -460,10 +449,7 @@ class SumDataset1( data.Dataset ):
             for e in x['edge13']:
                 a = e[0] + self.Nl_Len + len( x['lines'] )
                 b = e[1] + len( x['ftest'] ) + methodnum
-#                if (a > 1287):
-#                    print("edge13-a", a, e[0])
-#                if (b > 511):
-#                    print("edge13-b", b, e[1])
+
                 if (a, b) not in ed:
                     ed[(a, b)] = 1
                     nladrow.append( a )
@@ -482,10 +468,7 @@ class SumDataset1( data.Dataset ):
             for e in x['edge14']:
                 a = e[0] + self.Nl_Len + len( x['lines'] )
                 b = e[1] + methodnum
-#                if (a > 1287):
-#                    print("edge14-a", a, e[0])
-#                if (b > 511):
-#                    print("edge14-b", b, e[1])
+
                 if (a, b) not in ed:
                     ed[(a, b)] = 1
                     nladrow.append( a )
@@ -502,14 +485,12 @@ class SumDataset1( data.Dataset ):
                     assert (0)
 
             overlap = self.getoverlap( texta, textb )
-            # print("&&&&&&&&&&&&&&&&&",overlap[0],type(overlap[0]),type(overlap))
-            # print(overlap)
+
             Nodes.append( self.pad_seq( self.Get_Em( nodes, self.Nl_Voc ), self.Nl_Len ) )
             Types.append( self.pad_seq( types, self.Nl_Len ) )
             Res.append( self.pad_seq( res, self.Nl_Len ) )
             LineMus.append( self.pad_list( mus, self.Code_Len, 3 ) )
             inputText.append( self.pad_seq( overlap, self.Nl_Len ) )
-            # inputText.append(self.pad_list(text, self.Nl_Len, 10))
             LineNodes.append( self.pad_seq( self.Get_Em( linenodes, self.Nl_Voc ), self.Code_Len ) )
             LineTypes.append( self.pad_seq( linetypes, self.Code_Len ) )
             LineSMType.append(self.pad_seq1( line_S_M, self.Code_Len ) )
@@ -531,11 +512,10 @@ class SumDataset1( data.Dataset ):
         print("correct: %d error: %d" % (correct, error))
         print("error1: %d error2: %d" % (error1, error2))
 
-        # assert(0)#assert(0)
+
         batchs = [Nodes, Types, inputNlad, Res, inputText, LineNodes, LineTypes, LineMus,LineSMType]
         self.data = batchs
         open( self.proj + "data.pkl", "wb" ).write( pickle.dumps( batchs, protocol=4 ) )
-        # open('nl_voc.pkl', 'wb').write(pickle.dumps(self.Nl_Voc))
         return batchs
 
     def __getitem__(self, offset):
@@ -543,16 +523,7 @@ class SumDataset1( data.Dataset ):
         if True:
             for i in range( len( self.data ) ):
                 if i == 2:
-                    # torch.FloatTensor(np.array([self.data[i][offset].row, self.data[i][offset].col])).float()
-                    # torch.FloatTensor(self.data[i][offset].data)
-                    # torch.FloatTensor(self.data[i][offset].data)
-                    # ans.append(self.data[i][offset])
-                    # ans.append(torch.sparse.FloatTensor(torch.LongTensor(np.array([self.data[i][offset].row, self.data[i][offset].col])), torch.FloatTensor(self.data[i][offset].data).float(), torch.Size([self.Nl_Len,self.Nl_Len])))
-                    # open('tmp.pkl', 'wb').write(pickle.dumps(self.data[i][offset]))
-                    # assert(0)
                     ans.append( self.data[i][offset].toarray() )
-                    # print(self.data[i][offset].toarray()[0, 2545])
-                    # assert(0)
                 else:
                     ans.append( np.array( self.data[i][offset] ) )
         else:
@@ -572,19 +543,17 @@ class SumDataset1( data.Dataset ):
         return len( self.data[0] )
 
     def Get_Train(self, batch_size):
-#        print("========hhhhh=========")
         data = self.data
         loaddata = data
         batch_nums=0
         if batch_size!=0:
             batch_nums = int( len( data[0] ) / batch_size )
-#        print("self.dataName-batch_nums:",self.dataName,self.ids)
         if True:
             if self.dataName == 'train':
                 shuffle = np.random.permutation( range( len( loaddata[0] ) ) )  # 把数据长度的列表打乱
             else:
                 shuffle = np.arange( len( loaddata[0] ) )
-            for i in range(batch_nums):  # lang 里面i in {0}
+            for i in range(batch_nums):
                 ans = []
                 for j in range( len( data ) ):
                     if j != 2:
@@ -598,7 +567,6 @@ class SumDataset1( data.Dataset ):
                                 ids.append(
                                     [idx - batch_size * i, data[j][shuffle[idx]].row[p], data[j][shuffle[idx]].col[p]] )
                                 v.append( data[j][shuffle[idx]].data[p] )
-                        # print([batch_size, self.Nl_Len + self.Code_Len, self.Nl_Len + self.Code_Len])
                         ans.append( torch.sparse.FloatTensor( torch.LongTensor(ids).t(), torch.FloatTensor( v ),
 torch.Size([batch_size, self.Nl_Len + self.Code_Len,
 self.Nl_Len + self.Code_Len] ) ) )
@@ -614,8 +582,6 @@ self.Nl_Len + self.Code_Len] ) ) )
                         v = []
                         for idx in range( batch_size * batch_nums, len( data[0] ) ):
                             for p in range( len( data[j][shuffle[idx]].row ) ):
-                                # if(data[j][shuffle[idx]].col[p]>=400 or data[j][shuffle[idx]].row[p]>=400):
-                                #     print(idx, shuffle[idx],[idx - batch_size * batch_nums, data[j][shuffle[idx]].row[p], data[j][shuffle[idx]].col[p]])
                                 ids.append( [idx - batch_size * batch_nums, data[j][shuffle[idx]].row[p],
                                              data[j][shuffle[idx]].col[p]] )
                                 v.append( data[j][shuffle[idx]].data[p] )
@@ -632,5 +598,3 @@ class node:
         self.father = None
         self.child = []
         self.id = -1
-# if __name__ == "__main__":
-#     train_set = SumDataset(args, "train", testid=0, proj="tcas", lst=[] )
