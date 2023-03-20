@@ -23,11 +23,11 @@ where runtotal.py is main entry file. Using the above command, GMBFL would execu
 
 > Note  
 
-    * The third, fourth, fifth, seventh and eighth parameters in the `Example commands` are `random seed`, `learning rate`, `batch size`, `training epoch`, `number of model layers`, respectively.  
+* The third, fourth, fifth, seventh and eighth parameters in the `Example commands` are `random seed`, `learning rate`, `batch size`, `training epoch`, `number of model layers`, respectively.  
 
-    * These values in the `Example commands` all are default configuration on GMBFL. If you are making a first attempt at using GMBFL in your project, it is recommended to use the default parameters.  
+* These values in the `Example commands` all are default configuration on GMBFL. If you are making a first attempt at using GMBFL in your project, it is recommended to use the default parameters.  
 
-    * `GGANN` specifies the use of gated graph attention neural network models. Since the adjacency matrix representing the graph structure is a sparse matrix, we additionally provide a sparse matrix-based gated graph attention neural network `SpGGANN` to reduce the space required at runtime. If you do, configure it in `Transformer.py`.  
+* `GGANN` specifies the use of gated graph attention neural network models. Since the adjacency matrix representing the graph structure is a sparse matrix, we additionally provide a sparse matrix-based gated graph attention neural network `SpGGANN` to reduce the space required at runtime. If you do, configure it in `Transformer.py`.  
 
     
 >  Configuration of Multi-head attention  
