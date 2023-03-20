@@ -6,24 +6,36 @@
 
 
 ## Environment
-PyTorch: V1.13.0
-OS: CentOS Linux release 7.9.2009 (Core)
+PyTorch: V1.13.0  
+
+OS: CentOS Linux release 7.9.2009 (Core)  
+
 
 ## Using GMBFL
-> Example commands
-Find Faults for a specific project (commons lang):
-- python runtotal.py Lang 0 0.01 60 GGANN 15 3
-where runtotal.py is main entry file. Using the above command, GMBFL would execute the run.py, GGANN.py, sum.py, respectively.  
+> Example commands  
 
--Note
-    - The third, fourth, fifth, seventh and eighth parameters in the `Example commands` are `random seed`, `learning rate`, `batch size`, `training epoch`, `number of model layers`, respectively.
-    - These values in the `Example commands` all are default configuration on GMBFL. If you are making a first attempt at using GMBFL in your project, it is recommended to use the default parameters.
-    - `GGANN` specifies the use of gated graph attention neural network models. Since the adjacency matrix representing the graph structure is a sparse matrix, we additionally provide a sparse matrix-based gated graph attention neural network `SpGGANN` to reduce the space required at runtime. If you do, configure it in `Transformer.py`.
+Find Faults for a specific project (commons lang):  
+
+* python runtotal.py Lang 0 0.01 60 GGANN 15 3  
+
+where runtotal.py is main entry file. Using the above command, GMBFL would execute the run.py, GGANN.py, sum.py, respectively.    
+
+
+-Note  
+
+    * The third, fourth, fifth, seventh and eighth parameters in the `Example commands` are `random seed`, `learning rate`, `batch size`, `training epoch`, `number of model layers`, respectively.  
+
+    * These values in the `Example commands` all are default configuration on GMBFL. If you are making a first attempt at using GMBFL in your project, it is recommended to use the default parameters.  
+
+    -*`GGANN` specifies the use of gated graph attention neural network models. Since the adjacency matrix representing the graph structure is a sparse matrix, we additionally provide a sparse matrix-based gated graph attention neural network `SpGGANN` to reduce the space required at runtime. If you do, configure it in `Transformer.py`.  
+
     
-- Configuration of Multi-head attention
-Due to space limitations, we did not use the multi-head attention mechanism. However, the advantages of multi-head attention have been generally acknowledged, and we also retain the interface to configure the multi-head attention mechanism. If you do, go to `model.py`
+- Configuration of Multi-head attention  
 
--Important Files
+Due to space limitations, we did not use the multi-head attention mechanism. However, the advantages of multi-head attention have been generally acknowledged, and we also retain the interface to configure the multi-head attention mechanism. If you do, go to `model.py`.  
+
+-Important Files  
+
 * `runtotal.py` receives the parameters entered by the user and performs the experiment for the user specified project according to the corresponding configuration.
 
 * `run.py` is responsible for training the ranking model for each buggy version of the project under test and predicting the fault location based on its graph representation. Each version of the ranking results is saved in a separate pkl file.
