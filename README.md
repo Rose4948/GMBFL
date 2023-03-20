@@ -40,7 +40,7 @@ Due to space limitations, we did not use the multi-head attention mechanism. How
 
 * `run.py` is responsible for training the ranking model for each buggy version of the project under test and predicting the fault location based on its graph representation. Each version of the ranking results is saved in a separate pkl file.
 
-* `GGANN.py` provides detailed code for both GGANN and SpGGANN  
+* `GGANN.py` provides detailed code for both `GGANN` and `SpGGANN`.  Please choose which one to use according to your actual situation.
 
 * `sum.py` merges the results for all the buggy version of the project under test and  stores them in a pkl file.
  In addition, metrics about `top-1`,`top-3`, and `top-5` are displayed in the console.  
