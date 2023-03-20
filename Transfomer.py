@@ -1,5 +1,5 @@
 import torch.nn as nn
-from GGAT import GGAT,SpGGAT
+from GGANN import GGANN,SpGGANN
 from SubLayerConnection import SublayerConnection
 from LayerNorm import LayerNorm
 
@@ -18,8 +18,8 @@ class TransformerBlock(nn.Module):
         """
 
         super().__init__()
-        self.Tconv_forward = SpGGAT(hidden,attn_heads)
-        #self.Tconv_forward = GGAT(hidden,attn_heads)
+        #self.Tconv_forward = SpGGANN(hidden,attn_heads)
+        self.Tconv_forward = GGANN(hidden,attn_heads)
         self.sublayer4 = SublayerConnection(size=hidden, dropout=dropout)
         self.dropout = nn.Dropout(p=dropout)
         self.norm = LayerNorm(hidden)
