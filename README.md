@@ -46,4 +46,4 @@ Due to space limitations, we did not use the multi-head attention mechanism. How
  In addition, metrics about `top-1`,`top-3`, and `top-5` are displayed in the console.  
 
 > Data  
-data link [link]([https://markdown.com.cn](https://www.aliyundrive.com/s/zh7dgQqAsbn) "GMBFL-data-pkl and password:`3dz5`") 
+data [link](https://www.aliyundrive.com/s/zh7dgQqAsbn "GMBFL-data-pkl and password:`3dz5`") 
